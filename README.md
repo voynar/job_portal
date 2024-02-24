@@ -1,7 +1,7 @@
 ## JobPortal WebApp
 
 ### Objective
-A project done for my boss so I wouldn't have to hear about the costs of Indeed. Secondly, it was a chance to explore Django REST framework and React, as well as implement solid security practices on a production server.
+A project done for my boss so I wouldn't have to hear about the costs of Indeed. It was also a chance to explore Django REST framework and React, as well as implement solid security practices on a production server.
 
 ### Project Setup
 Unless specified otherwise, all CLI commands are executed on your Linux server. If you are on a Windows machine, or have a Windows server, please share your instructions with me!
@@ -106,11 +106,11 @@ Let's start with _**Python and Django:**_
   salary = models.IntegerField()
 ```
 - Main resource for configuring Nginx with Django and uwsgi:
-    - https://tonyteaches.tech/django-nginx-uwsgi-tutorial/
+  - https://tonyteaches.tech/django-nginx-uwsgi-tutorial/
 - Lessons the HARD WAY!:
-    - the React, Django, and Django API Backend all need their root & static directories explicitly defined.
-    - the React root `/` is the main point of entry for the application, and the static directories use aliases.
-    - the Django API backend static directories all have `uwsgi_pass django;` as an argument.
+  - the React, Django, and Django API Backend all need their root & static directories explicitly defined.
+  - the React root `/` is the main point of entry for the application, and the static directories use aliases.
+  - the Django API backend static directories all have `uwsgi_pass django;` as an argument.
 - Create your `uwsgi_params` file as referenced under 'Proxy API Requests' in your nginx config file:
 ```
   # Do the same for the 'positions' and 'account' blocks
@@ -129,7 +129,7 @@ Let's start with _**Python and Django:**_
   $ python manage.py collectstatic
 ```
 - Congigure uwsgi for production creating `job_postings_uwsgi.ini` at the root of your Django application.
-    - This puts all the necessary command line arguments in a unified configuration file.
+  - This puts all the necessary command line arguments in a unified configuration file.
 - Start up uwsgi and specify the `ini` file:
 ```
   $ uwsgi --ini job_postings_uwsgi.ini
@@ -165,9 +165,13 @@ Let's start with _**Python and Django:**_
 ```
   $ sudo systemctl restart nginx.service
 ```
+- Restart your system:
+```
+  $ sudo reboot
+```
 
 _**React:**_
-- (Nginx) Requests to the root path `/` are served by the React frontend.
+- Nginx requests to the root path `/` are served by the React frontend.
 - Setup your project: :star:Done in Development Environment!:star:
 ```
   $ npx create-react-app app_name
@@ -201,19 +205,19 @@ _**React:**_
 ```
 ```
   server {
-        listen 80;
-        server_name site.org www.site.org;
-        root /var/www/site/build;            # <-- Right Here!
-        charset utf-8;
-        
-        # ... rest of server block
-    }
+    listen 80;
+    server_name site.org www.site.org;
+    root /var/www/site/build;            # <-- Right Here!
+    charset utf-8;
+    
+    # ... rest of server block
+  }
 ```
 
 _**PHP:**_
 - Resources:
-  - 'https://phppot.com/php/sending-email-using-phpmailer-with-gmail-xoauth2/'
-  - 'https://developers.google.com/gmail/imap/xoauth2-protocol'
+  - https://phppot.com/php/sending-email-using-phpmailer-with-gmail-xoauth2/
+  - https://developers.google.com/gmail/imap/xoauth2-protocol
 - Check installed PHP-FPM packages:
 ```
   $ sudo dpkg -l | grep 'php-fpm'
@@ -234,15 +238,14 @@ _**PHP:**_
   $ sudo mv /path/to/client_secret.json /var/www/site/secrets/
 ```
 - Serve your PHP files within the Nginx document root, for example:
-    - In `ApplyToday.js`:
-    ```
-      'http://localhost:8888/send-mail.php'
-    ```
-- Enable Gmail API to utilize SMTP server for `send-mail.php`:
-    - Generate API keys (Client ID & Client Secret) in cloud platform console.
-    - Obtaining OAuth2 access tokens for Google's SMTP service:
-        - Go to your `https://console.cloud.google.com/apis/...` and setup an OAuth consent screen and credentials.
-        - Authorized redirect URI, `https://site.org/get_oauth_token.php` (for User authentication, you!).
+  - In `ApplyToday.js`:
+  ```
+    'http://localhost:8888/send-mail.php'
+  ```
+- Enable Gmail API to utilize SMTP server for `send-mail.php`.
+- Generate API keys (Client ID & Client Secret) in cloud platform console obtain OAuth2 access tokens for Google's SMTP service:
+  - Go to your `https://console.cloud.google.com/apis/...` and setup an OAuth consent screen and credentials.
+  - Authorized redirect URI, `https://site.org/get_oauth_token.php` (for User authentication, you!).
 - Ensure that the PHP scripts are executable by your web server user:
 ```
   $ chmod +x /var/www/site/php/get_oauth_token.php
@@ -253,7 +256,6 @@ _**PHP:**_
   $ composer require phpmailer/phpmailer
   $ composer require league/oauth2-google
 ```
-
 - Include CORS headers in `send-mail.php`:
 ```
   header("Access-Control-Allow-Origin: http://localhost:3000");
@@ -266,11 +268,11 @@ _**PHP:**_
   <?php
   
   return [
-      'client_id' => 'your_client_id,
-      'client_secret' => 'your_client_secret',
-      'dbUsername' => 'admin',
-      'dbPassword' => 'your_password',
-      'dbName' => 'db_name',
+    'client_id' => 'your_client_id,
+    'client_secret' => 'your_client_secret',
+    'dbUsername' => 'admin',
+    'dbPassword' => 'your_password',
+    'dbName' => 'db_name',
   ];
 ```
 - At some point, confirm php-fpm's master & worker processes are running:
@@ -288,16 +290,16 @@ _**PHP:**_
 - PHP block in Nginx config file should look like:
 ```
   location ~ \.php$ {
-      alias /var/www/site/php/;
-      include snippets/fastcgi-php.conf;
-      include fastcgi_params;
-      fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;     # Does it match!?
-      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    alias /var/www/site/php/;
+    include snippets/fastcgi-php.conf;
+    include fastcgi_params;
+    fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;     # Does it match!?
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
   }
 ```
 - Confirm the php-fpm version on your server matches the config file.
 - Keep your PHP files within the web server's document root or a directory that's specifically configured to serve PHP files.
-    - It keeps the server's file structure information secure, as well as provides portability & maintainability.
+  - It keeps the server's file structure information secure, as well as provides portability & maintainability.
 
 _**MySQL:**_
 - Install MySQL (MariaDB) on your server and configure database name, user, password, and host.
@@ -309,36 +311,36 @@ _**MySQL:**_
 - Make sure to update the `DATABASES` object in `settings.py`:
 ```
   DATABASES = {
-      'default': {
-          'ENGINE': 'django.db.backends.mysql',
-          'NAME': 'oauth',
-          'USER': '<you>',
-          'PASSWORD': '<your_pwd>',
-          'HOST': 'localhost',
-          'PORT': '',
-      }
+    'default': {
+      'ENGINE': 'django.db.backends.mysql',
+      'NAME': 'oauth',
+      'USER': 'you',
+      'PASSWORD': 'your_pwd',
+      'HOST': 'localhost',
+      'PORT': '',
+    }
   }
 ```
 
 _**Nginx/etc:**_
 - The permissions for files and directories on your web server should generally be set to a user and group that the web server process has permission to access. In the case of Nginx running on many Linux distributions, the user and group is often `www-data`.
-    - To allow the `www-data` user (which Nginx typically runs as) access to your Django static files located at `/home/admin/django/job_postings/static/`, you'll need to ensure that the directory and files have the appropriate permissions: (this is tentative, because you may already have these set appropriately)
-        - Change the ownership of the static directory to the `www-data` user and group:
-        ```
-          $ sudo chown -R www-data:www-data /home/admin/django/job_postings/static
-        ```
-        - Ensure that the `www-data` user has read permissions on the static files:
-        ```
-          $ sudo chmod -R 755 /home/admin/django/job_postings/static
-        ```
-        - Restart Nginx after changing permissions, changing config files, etc:
-        ```
-          $ sudo systemctl restart nginx.service
-        ```
-        - If your server is using `SELinux`, you may also need to configure SELinux settings to allow Nginx to access the static files:
-        ```
-          $ sudo chcon -R -t httpd_sys_content_t /home/admin/django/job_postings/static
-        ```
+- To allow the `www-data` user (which Nginx typically runs as) access to your Django static files located at `/home/admin/django/job_postings/static/`, you'll need to ensure that the directory and files have the appropriate permissions: (this is tentative, because you may already have these set appropriately)
+- Change the ownership of the static directory to the `www-data` user and group:
+```
+  $ sudo chown -R www-data:www-data /home/admin/django/job_postings/static
+```
+- Ensure that the `www-data` user has read permissions on the static files:
+```
+  $ sudo chmod -R 755 /home/admin/django/job_postings/static
+```
+- Restart Nginx after changing permissions, changing config files, etc:
+```
+  $ sudo systemctl restart nginx.service
+```
+- If your server is using `SELinux`, you may also need to configure SELinux settings to allow Nginx to access the static files:
+```
+  $ sudo chcon -R -t httpd_sys_content_t /home/admin/django/job_postings/static
+```
 
 - React's static files are located in `/static` (`alias /var/www/site/build/static/;`)
 - Django's static files are located in `/static/admin/` (`alias /home/admin/django/job_postings/static/admin/;`) and `/static/rest-framework` (`alias /home/admin/django/job_postings/static/rest-framework/;`)
@@ -348,7 +350,7 @@ _**Nginx/etc:**_
 - Acquire an `HTTPS` certificate. I used `certbot` & `letsencrypt`, which automatically appends the SSL/TLS info directly to your Nginx conf file(s).
 - I used `rsync` to copy my React 'build' files to my server:
 ```
-    $ rsync -vrP /path/to/build/ you@server.org:/home/admin/1wherever/
+    $ rsync -vrP /path/to/build/ you@server.org:/home/admin/wherever/
 ```
 - Check these file permissions after uploading. After moving to `/var/www/`, I needed to:
 ```
