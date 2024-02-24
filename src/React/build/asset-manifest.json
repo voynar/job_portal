@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ddf52d3c.css",
+    "main.js": "/static/js/main.69cd3c5c.js",
+    "static/media/installer.JPG": "/static/media/installer.f12f19960d2a3db8dffc.JPG",
+    "static/media/cole-slaw.JPG": "/static/media/cole-slaw.53ce966338329f44d5d3.JPG",
+    "static/media/warehouse-mgr.jpg": "/static/media/warehouse-mgr.36f6cd140a4cf725d05d.jpg",
+    "static/media/metal-heads.jpg": "/static/media/metal-heads.01aa452eea778a40ab71.jpg",
+    "static/media/pagenotfound.png": "/static/media/pagenotfound.28f3aa27eae97df57582.png",
+    "static/media/crisis-schedule.jpg": "/static/media/crisis-schedule.546540d48861418f59a9.jpg",
+    "static/media/ask-hr.jpg": "/static/media/ask-hr.fd56a467e07d3aec2d01.jpg",
+    "static/media/logo.png": "/static/media/logo.9ccbfd35746544f78b9a.png",
+    "index.html": "/index.html",
+    "main.ddf52d3c.css.map": "/static/css/main.ddf52d3c.css.map",
+    "main.69cd3c5c.js.map": "/static/js/main.69cd3c5c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ddf52d3c.css",
+    "static/js/main.69cd3c5c.js"
+  ]
+}

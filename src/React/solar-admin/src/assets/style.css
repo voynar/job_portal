@@ -1,0 +1,16 @@
+.penta-cont {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    
+}
+.penta-img {
+    transition: transform 0.8s ease-in-out;
+    display: block;
+    margin-top: 10px;
+    height: auto;
+    width: 10%;
+}
+.penta-img:hover {
+    transform: rotate(10deg) scale(1.2);
+}
