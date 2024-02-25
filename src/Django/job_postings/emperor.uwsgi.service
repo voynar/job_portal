@@ -1,0 +1,9 @@
+[Unit]
+Description=uwsgi emperor for job_postings website
+After=network.target
+[Service]
+User=admin
+Restart=always
+ExecStart=/home/admin/django/venv/bin/uwsgi --emperor /home/admin/django/venv/vassals --uid www-data --gid www-data
+[Install]
+WantedBy=multi-user.target
